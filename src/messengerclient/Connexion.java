@@ -11,7 +11,7 @@ public class Connexion  implements Runnable{
     private BufferedReader in = null;
     private Scanner scanner = null;
     private boolean isConnected = false;
-    
+       
     public Connexion(Socket socket){
         this.socket = socket;
     }
@@ -21,6 +21,7 @@ public class Connexion  implements Runnable{
             out = new PrintWriter(socket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             scanner = new Scanner(System.in);
+            
             
             while(!isConnected){
                 System.out.println(in.readLine());
@@ -35,7 +36,7 @@ public class Connexion  implements Runnable{
                     System.err.println("Ce login est déjà utilisé.");
                 }
             }
-            thread2 = new Thread(new Client(socket));
+            thread2 = new Thread(new ActionClient(socket));
             thread2.start();
         } catch (IOException e){
             System.err.println("Le serveur ne répond pas.");
