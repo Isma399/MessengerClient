@@ -8,39 +8,31 @@ import java.util.Scanner;
 
 public class EmissionObjet implements Runnable{
   
-   public ObjectOutputStream out2;
+   public ObjectOutputStream out;
+   private final Client client;
    
-   
-   
-    public EmissionObjet(ObjectOutputStream out2){
-        this.out2=out2;
+   public EmissionObjet(ObjectOutputStream out,Client client){
+        this.out=out;this.client=client;
     }
 @Override
 public void run(){
-    
-//    Scanner scanner = new Scanner (System.in);
-//    while(true){
-//        String  text = scanner.nextLine();
-//        Message.setText(text);
-//    } 
+  
     try{
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Adresse IP " + Connexion.client.getIpAddress());
+        System.out.println("Adresse IP " + client.getIpAddress()  );
         while (true){
-            Message message = new Message(Connexion.client,"");
+            Message message = new Message(client,"");
             String text = scanner.nextLine();
-                       
+            message.setClient(client);
             message.setText(text);
-            out2.writeObject(message);
-            out2.flush();
-//            out2.reset();
-
+            out.writeObject(message);
+            out.flush();
+            //out.reset();
         }
-
     }catch(IOException e){e.printStackTrace();}
     finally{
         try{ 
-            out2.close();
+            out.close();
         }catch(IOException e){e.printStackTrace();}}
-}
+    }
 }

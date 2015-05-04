@@ -1,8 +1,9 @@
 package shared;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.io.Serializable;
 
-public class Client {
+public class Client implements Serializable{
     private String login;
     private InetAddress ipAddress;
    

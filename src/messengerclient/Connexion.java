@@ -40,7 +40,7 @@ public class Connexion  implements Runnable{
                     System.err.println("Ce login est déjà utilisé.");
                 }
             }
-            thread2 = new Thread(new ActionClient(socket));
+            thread2 = new Thread(new ActionClient(socket,client));
             thread2.start();
         } catch (IOException e){
             System.err.println("Le serveur ne répond pas.");
