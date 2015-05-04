@@ -20,7 +20,7 @@ public class ReceptionObjet implements Runnable{
                 Object objectReceived = in2.readObject();
                 if (objectReceived instanceof Message){
                 Message message = (Message)objectReceived;
-                System.out.println(message.getLogin() + " : " + message.getText());
+                System.out.println(message);
                 }else{System.out.println("Bad Object.");}                 
             } catch (IOException e){System.err.println(e);
             } catch (ClassNotFoundException ex) {

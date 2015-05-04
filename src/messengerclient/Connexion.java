@@ -2,6 +2,8 @@ package messengerclient;
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;
+import shared.Client;
+import java.net.InetAddress;
 
 public class Connexion  implements Runnable{
     private  Socket socket = null;
@@ -11,6 +13,7 @@ public class Connexion  implements Runnable{
     private BufferedReader in = null;
     private Scanner scanner = null;
     private boolean isConnected = false;
+    public static Client client;
        
     public Connexion(Socket socket){
         this.socket = socket;
@@ -30,7 +33,8 @@ public class Connexion  implements Runnable{
                 out.flush();
                 
                 if(in.readLine().equals("connecte")){
-                    System.out.println(login + " connecté.");
+                    System.out.print(login + " connecté.");
+                    client = new Client(login,InetAddress.getLocalHost());
                     isConnected = true;
                 } else {
                     System.err.println("Ce login est déjà utilisé.");

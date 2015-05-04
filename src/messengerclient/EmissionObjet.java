@@ -1,8 +1,10 @@
 package messengerclient;
 import shared.Message;
+import shared.Client;
 
 import java.io.*;
 import java.util.Scanner;
+
 
 public class EmissionObjet implements Runnable{
   
@@ -23,12 +25,12 @@ public void run(){
 //    } 
     try{
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Adresse IP " + Connexion.client.getIpAddress());
         while (true){
+            Message message = new Message(Connexion.client,"");
             String text = scanner.nextLine();
-            Message message = new Message("","");
+                       
             message.setText(text);
-            message.setLogin(Connexion.login);
-            System.out.println(message.toString());
             out2.writeObject(message);
             out2.flush();
 //            out2.reset();
