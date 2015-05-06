@@ -1,20 +1,13 @@
 package shared;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.io.Serializable;
 
 public class Client implements Serializable{
     private String login;
     private InetAddress ipAddress;
    
-    public Client(String login,InetAddress ipAddress){
-        this.login=login;
-        try {
-            ipAddress = InetAddress.getLocalHost();
-            this.ipAddress=ipAddress;
-        } catch (UnknownHostException e){e.printStackTrace();}
-    }
-    
+   public Client(String login,InetAddress ipAddress){this.login=login;this.ipAddress=ipAddress;}
+        
        public String getLogin() {
         return login;
     }
@@ -29,6 +22,10 @@ public class Client implements Serializable{
 
     public void setIpAddress(InetAddress ipAddress) {
         this.ipAddress = ipAddress;
+    }
+     @Override
+    public String toString(){
+        return login + ipAddress;
     }
     
     

@@ -6,7 +6,7 @@ public class Message implements Serializable {
    private Client client;
    private  String text;
     
-    
+   public Message(){} 
     public Message(Client client, String text){}
     
     //@Override
@@ -25,5 +25,10 @@ public class Message implements Serializable {
     public void setText(String text) {
         this.text = text;
     }
+    @Override
+    public String toString(){
+        return client.getLogin() + " : "  + text;
+    }
+   
        
 }
