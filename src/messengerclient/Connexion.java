@@ -3,7 +3,6 @@ import java.net.*;
 import java.util.Scanner;
 import java.io.*;
 import shared.Client;
-import java.net.InetAddress;
 
 public class Connexion  implements Runnable{
     private  Socket socket = null;
@@ -24,8 +23,7 @@ public class Connexion  implements Runnable{
             out = new PrintWriter(socket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             scanner = new Scanner(System.in);
-            
-            
+                        
             while(!isConnected){
                 System.out.println(in.readLine());
                 login = scanner.nextLine();
@@ -33,8 +31,8 @@ public class Connexion  implements Runnable{
                 out.flush();
                 
                 if(in.readLine().equals("connecte")){
-                    System.out.print(login + " connecté.");
-                    client = new Client(login,InetAddress.getLocalHost());
+                    System.out.println(login + " connecté.");
+                    client = new Client(login);
                     isConnected = true;
                 } else {
                     System.err.println("Ce login est déjà utilisé.");

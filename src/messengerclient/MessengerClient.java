@@ -23,7 +23,8 @@ public class MessengerClient {
             Scanner scanner = new Scanner(System.in);
             socket = new Socket( whichIP(scanner),5000);
                       
-            System.out.println("Connexion etablie avec le serveur -> Authentification :  ");
+            System.out.print("Connexion etablie avec le serveur sur " + socket.getRemoteSocketAddress() );
+            System.out.println("-> Authentification.");
             thread1 = new Thread(new Connexion(socket));
             thread1.start();
         } catch (UnknownHostException e){

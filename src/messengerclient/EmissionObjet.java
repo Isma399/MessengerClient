@@ -5,7 +5,6 @@ import shared.Client;
 import java.io.*;
 import java.util.Scanner;
 
-
 public class EmissionObjet implements Runnable{
   
    public ObjectOutputStream out;
@@ -19,7 +18,6 @@ public void run(){
   
     try{
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Adresse IP " + client.getIpAddress()  );
         while (true){
             Message message = new Message(client,"");
             String text = scanner.nextLine();
@@ -27,7 +25,7 @@ public void run(){
             message.setText(text);
             out.writeObject(message);
             out.flush();
-            //out.reset();
+            out.reset();
         }
     }catch(IOException e){e.printStackTrace();}
     finally{
