@@ -26,8 +26,6 @@ public class ReceptionObjet implements Runnable{
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ReceptionObjet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //finally{try{in.reset();}catch(IOException ex){ex.printStackTrace();}}
-            //finally{try{in.close();}catch(IOException ex){ex.printStackTrace();}}
         }
     }
 }
