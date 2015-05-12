@@ -31,7 +31,6 @@ public class Connexion  implements Runnable{
                 out.flush();
                 
                 if(in.readLine().equals("connecte")){
-                    System.out.println(login + " connecté.");
                     client = new Client(login);
                     isConnected = true;
                 } else {

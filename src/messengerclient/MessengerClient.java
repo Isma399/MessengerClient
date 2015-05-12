@@ -2,14 +2,14 @@ package messengerclient;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import view.*;
+import javax.swing.SwingUtilities;
 
 public class MessengerClient {
     
     public static Socket socket = null;
     public static Thread thread1;
-    
-   
-    
+        
     public static InetAddress whichIP(Scanner scanner)throws UnknownHostException{
         String ip = scanner.nextLine();
         InetAddress ipServer = InetAddress.getByName(ip);
@@ -17,12 +17,17 @@ public class MessengerClient {
     }
 
     public static void main(String[] args) {
-        
+//        SwingUtilities.invokeLater(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                new ViewClient();
+//            }
+//        });
         try {
             System.out.println("Quel serveur voulez-vous contacter? Ip localhost = 127.0.0.1.");
             Scanner scanner = new Scanner(System.in);
             socket = new Socket( whichIP(scanner),5000);
-                      
             System.out.print("Connexion etablie avec le serveur sur " + socket.getRemoteSocketAddress() );
             System.out.println("-> Authentification.");
             thread1 = new Thread(new Connexion(socket));
@@ -32,5 +37,7 @@ public class MessengerClient {
         } catch (IOException e){
             System.err.println("Aucun serveur à l'écoute du port : " + socket.getPort());
         }
+        
+        
     }
 }
