@@ -1,14 +1,14 @@
 package view;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.DialogTemplate;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import messengerclient.EmissionObjet;
 
 public class ViewClient extends JFrame{
-
+   public static JTextArea chatWrite;
+   private JButton sendButton;
+    
    public ViewClient(){
 
     //Initial Setup
@@ -16,7 +16,8 @@ public class ViewClient extends JFrame{
     setResizable(true);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800,600);
-
+    setLocationRelativeTo(null);
+    
     //Main Panels
     JPanel window = new JPanel(new BorderLayout());
     JPanel center = new JPanel(new BorderLayout());
@@ -42,9 +43,12 @@ public class ViewClient extends JFrame{
     
     JPanel chat = new JPanel();
      chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-    JTextField chatWrite = new JTextField();
+    chatWrite = new JTextArea();
     chatWrite.setBorder(BorderFactory.createMatteBorder( 20, 0, 0, 2, icon));
-    JButton sendButton = new JButton("Send");
+    
+    sendButton = new JButton("Send");
+    sendButton.addActionListener(new messengerclient.EmissionObjet());
+    
     JPanel chatButton = new JPanel();
     chatButton.add(sendButton);
     chat.add(chatWrite);
@@ -77,6 +81,8 @@ public class ViewClient extends JFrame{
     chatWrite.addKeyListener(new KeyLis());
     connect.addActionListener(new ActLis());
     exit.addActionListener(new ActLis());
+    sendButton.addActionListener(new ActLis);
+    
 }
 
 static class KeyLis implements KeyListener{
@@ -106,6 +112,8 @@ static class ActLis implements ActionListener{
     } else if(e.getActionCommand() == "Connect"){
         ConnectScreen connectDialog = new ConnectScreen();
         connectDialog.setVisible(true);
+    } else if(e.getActionCommand() == "Send"){
+        
     }
 }
 }

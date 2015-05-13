@@ -11,26 +11,32 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
+import javax.swing.JTextArea;
 
 import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import messengerclient.MessengerClient;
+
 
 public class ConnectScreen extends JFrame{
   JDialog connectScreen = new JDialog();
-  public JTextField ipServer ;
-  public JFormattedTextField portServer;
-  public JTextField userName;
+  public static JTextArea alert;
+  public static JTextField ipServer ;
+  public static JTextField portServer;
+  public static JTextField userName;
   private JButton connect,cancel;
   public static Socket socket = null;
   
   public ConnectScreen(){
-        setSize(300, 200);
+        setSize(400, 300);
         setTitle("Connection");
+        setLocationRelativeTo(null);
         
         JPanel container = new JPanel();
+        
+      
         
         ipServer = new JTextField("127.0.0.1");
         JLabel ipLabel = new JLabel("Adresse IP du serveur");
@@ -42,8 +48,7 @@ public class ConnectScreen extends JFrame{
         top.add(ipServer);
         container.add(top);
         
-        portServer = new JFormattedTextField();
-        portServer.setValue(new Integer("5000"));
+        portServer = new JTextField("5000");
         portServer.setPreferredSize(new Dimension(100, 20));
         JLabel portLabel = new JLabel("Port du serveur");
         portLabel.setPreferredSize(new Dimension(130, 20));
@@ -63,13 +68,19 @@ public class ConnectScreen extends JFrame{
         container.add(middle2);
         
         connect = new JButton("Connect");
-        connect.addActionListener(new DialogListener());
+        connect.addActionListener(new messengerclient.MessengerClient());
         cancel = new JButton("Cancel");
         cancel.addActionListener(new DialogListener());
         JPanel bottom = new JPanel();
         bottom.add(connect);
         bottom.add(cancel);
         container.add(bottom);
+        
+          alert = new JTextArea("");
+        alert.setPreferredSize(new Dimension(375,100));
+        JPanel bottom2 = new JPanel();
+        bottom2.add(alert);
+        container.add(bottom2);
         
         add(container);
         setVisible(true);
@@ -80,29 +91,9 @@ public class ConnectScreen extends JFrame{
     @Override
     public void actionPerformed(ActionEvent e){
         Object button = e.getSource();
-        if (button == connect){
-            String user = userName.getText();
-            int port = (int) portServer.getValue();
-            InetAddress ip;
-            try{
-                ip = InetAddress.getByName(ipServer.getText()) ;
-            }catch(UnknownHostException ex){
-                System.err.println("Bad Address from ScreenConnect");
-            }
-            if (port!=5000){System.err.println("Bad Port. Only 5000 is allowed.");
-            //return to JDialog...
-            }
-//            else {
-//                try{
-//                    socket = new Socket(ip,port);
-//                } catch (UnknownHostException ex1){
-//                    System.err.println("Impossible de se connecter à l'adresse " +  socket.getLocalAddress());
-//                } 
-//                catch (IOException ex2){
-//                     System.err.println("Aucun serveur à l'écoute du port : " + socket.getPort());
-//                }
-            }
-            else{setVisible(false);dispose();}
-        }
+            if (button==cancel){setVisible(false);dispose();}
+
     }
+  }
+  
 }

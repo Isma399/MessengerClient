@@ -1,11 +1,14 @@
 package messengerclient;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 import view.*;
 import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
 
-public class MessengerClient {
+
+public class MessengerClient implements ActionListener {
     
     public static Socket socket = null;
     public static Thread thread1;
@@ -17,27 +20,51 @@ public class MessengerClient {
     }
 
     public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                new ViewClient();
-//            }
-//        });
-        try {
-            System.out.println("Quel serveur voulez-vous contacter? Ip localhost = 127.0.0.1.");
-            Scanner scanner = new Scanner(System.in);
-            socket = new Socket( whichIP(scanner),5000);
-            System.out.print("Connexion etablie avec le serveur sur " + socket.getRemoteSocketAddress() );
-            System.out.println("-> Authentification.");
-            thread1 = new Thread(new Connexion(socket));
-            thread1.start();
-        } catch (UnknownHostException e){
-            System.err.println("Impossible de se connecter à l'adresse " +  socket.getLocalAddress());
-        } catch (IOException e){
-            System.err.println("Aucun serveur à l'écoute du port : " + socket.getPort());
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new ViewClient();
+            }
+        });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        boolean isValidIP = false;
+        boolean isValidPort = false;
+        String ipServer = view.ConnectScreen.ipServer.getText();
+        InetAddress ip = null;
+        String login = view.ConnectScreen.userName.getText();
+        String error = "";
+        int portServer = Integer.valueOf(view.ConnectScreen.portServer.getText());
+        try{
+        ip = InetAddress.getByName(ipServer);
+        isValidIP  = true;
+        view.ConnectScreen.alert.setText("Adresse OK.");
+        }catch(IOException e){
+           error ="Adresse erronée." + "\n";
         }
-        
+        if (portServer==5000){
+            isValidPort = true;
+        } else {
+             error +=" Port non supporté actuellement.\n";
+        }
+        if (!(isValidIP) || !(isValidPort)){
+           error+=" \n Veuillez vérifier les informations de connexions au serveur.";
+            view.ConnectScreen.alert.setText(error);
+        }else
+             if ("".equals(login)){view.ConnectScreen.alert.setText("\n Veuillez fournir un pseudo.");}
+             else{
+            try{
+                socket = new Socket(ip,portServer);
+                thread1 = new Thread(new Connexion(socket,login));
+                thread1.start();
+                view.ConnectScreen.alert.setText("Connexion etablie avec le serveur sur " + socket.getRemoteSocketAddress() );
+            }catch(IOException ex){
+                view.ConnectScreen.alert.setText("Problème de connexion. Veuillez réessayer ultérieurement.");
+            }
+             }
         
     }
 }
