@@ -28,22 +28,25 @@ public class Connexion  implements Runnable{
                     //String loginTest = in.readLine();
                     //System.err.println(loginTest);
                     while(isConnected!=true){  
-                        if(in.readLine().equals("connecte")){
-                            client = new Client(login);
-                            
-                            System.out.println("Reception du signal connecte.");
-                            view.ConnectScreen.alert.setText("Pseudo OK.");
-                            isConnected = true;
-//                            thread2 = new Thread(new ActionClient(socket,client));
-//                            thread2.start();
-                            
-                        } else if(in.readLine().equals("loginAlreadyUsed")){
-                            view.ConnectScreen.alert.setText("Ce pseudo est déjà utilisé.");
-                            isConnected = true;
-                            //  socket.close();
-                        } else {
-                            
-                            //System.out.println(in.getClass());
+                        switch (in.readLine()) {
+                            case "connecte":
+                                client = new Client(login);
+                                System.out.println("Reception du signal connecte.");
+                                view.ConnectScreen.alert.setText("Pseudo OK.");
+                                isConnected = true;
+                                view.ViewClient.connectDialog.setVisible(false);
+                                view.ViewClient.connectDialog.dispose();
+                            thread2 = new Thread(new ActionClient(socket,client));
+                            thread2.start();
+                                break;
+                            case "loginAlreadyUsed":
+                                view.ConnectScreen.alert.setText("Ce pseudo est déjà utilisé.");
+                                isConnected = true;
+                                //  socket.close();
+                                break;
+                        //System.out.println(in.getClass());
+                            default:
+                                break;
                         }
                          System.out.println("Sortie de boucle? : " + isConnected);
                     }

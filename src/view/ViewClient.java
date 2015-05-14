@@ -47,7 +47,7 @@ public class ViewClient extends JFrame{
     chatWrite.setBorder(BorderFactory.createMatteBorder( 20, 0, 0, 2, icon));
     
     sendButton = new JButton("Send");
-    sendButton.addActionListener(new messengerclient.EmissionObjet());
+  //  sendButton.addActionListener(new messengerclient.EmissionObjet());
     
     JPanel chatButton = new JPanel();
     chatButton.add(sendButton);
@@ -81,7 +81,7 @@ public class ViewClient extends JFrame{
     chatWrite.addKeyListener(new KeyLis());
     connect.addActionListener(new ActLis());
     exit.addActionListener(new ActLis());
-    sendButton.addActionListener(new ActLis);
+    sendButton.addActionListener(new ActLis());
     
 }
 
@@ -102,15 +102,16 @@ static class KeyLis implements KeyListener{
         // TODO Auto-generated method stub
     }
 }
-
+public static ConnectScreen connectDialog;
 static class ActLis implements ActionListener{
     public JTextField ipServer;
+    
     @Override
     public void actionPerformed(ActionEvent e) {
     if(e.getActionCommand() == "Exit"){
         System.exit(0);
     } else if(e.getActionCommand() == "Connect"){
-        ConnectScreen connectDialog = new ConnectScreen();
+        connectDialog = new ConnectScreen();
         connectDialog.setVisible(true);
     } else if(e.getActionCommand() == "Send"){
         

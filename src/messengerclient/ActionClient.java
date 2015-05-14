@@ -9,6 +9,7 @@ public class ActionClient implements Runnable {
     private Scanner scanner;
     private Thread thread3, thread4;
     private Client client;
+    private String text;
     
     public ActionClient (Socket socket,Client client){
         this.socket=socket;this.client=client;
@@ -24,6 +25,7 @@ public class ActionClient implements Runnable {
             Thread thread4 = new Thread(new ReceptionObjet(in));
             thread4.start();
         } catch (IOException e){
+            e.printStackTrace();
             System.err.println("Le serveur distant n'est plus accessible.");
         }
     }
