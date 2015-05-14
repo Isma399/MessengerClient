@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import messengerclient.MessengerClient;
+import model.MessengerClient;
 
 
 public class ConnectScreen extends JFrame{
@@ -68,7 +68,7 @@ public class ConnectScreen extends JFrame{
         container.add(middle2);
         
         connect = new JButton("Connect");
-        connect.addActionListener(new messengerclient.MessengerClient());
+        connect.addActionListener(new model.MessengerClient());
         cancel = new JButton("Cancel");
         cancel.addActionListener(new DialogListener());
         JPanel bottom = new JPanel();

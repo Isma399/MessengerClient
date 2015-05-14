@@ -1,5 +1,5 @@
-package messengerclient;
-import shared.Message;
+package model;
+import shared.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +20,12 @@ public class ReceptionObjet implements Runnable{
                 Object objectReceived = in.readObject();
                 if (objectReceived instanceof Message){
                 Message message = (Message)objectReceived;
+                if(message.getClient().toString().equals("server")){
+                    System.out.println("Message du serveur : " + message.getText() );
+                }
+                else{
                 System.out.println( message);
+                }
                 }else{System.out.println("Bad Object.");}                 
             } catch (IOException e){System.err.println(e);
             } catch (ClassNotFoundException ex) {

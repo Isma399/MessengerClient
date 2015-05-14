@@ -3,7 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import messengerclient.EmissionObjet;
+import model.EmissionObjet;
 
 public class ViewClient extends JFrame{
    public static JTextArea chatWrite;

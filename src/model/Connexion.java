@@ -1,4 +1,5 @@
-package messengerclient;
+package model;
+import model.ActionClient;
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;

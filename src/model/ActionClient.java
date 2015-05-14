@@ -1,4 +1,4 @@
-package messengerclient;
+package model;
 import shared.Client;
 import java.io.*;
 import java.net.*;

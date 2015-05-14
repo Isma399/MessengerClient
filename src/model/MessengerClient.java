@@ -1,4 +1,4 @@
-package messengerclient;
+package model;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.*;
