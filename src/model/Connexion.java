@@ -1,5 +1,4 @@
 package model;
-import model.ActionClient;
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;
@@ -18,6 +17,13 @@ public class Connexion  implements Runnable{
     public Connexion(Socket socket,String login){
         this.socket = socket;this.login=login;
     }
+//    public void close(){
+//        try{
+//        socket.close();
+//        }catch(IOException e){
+//            System.out.println("Vous avez bien été déconecté.");
+//        }
+//    }
     @Override
     public void run(){
         try{
@@ -26,36 +32,27 @@ public class Connexion  implements Runnable{
                 try{
                     out.println(login);
                     out.flush();
-                    //String loginTest = in.readLine();
-                    //System.err.println(loginTest);
                     while(isConnected!=true){  
                         switch (in.readLine()) {
                             case "connecte":
                                 client = new Client(login);
-                                System.out.println("Reception du signal connecte.");
                                 view.ConnectScreen.alert.setText("Pseudo OK.");
                                 isConnected = true;
-                                view.ViewClient.connectDialog.setVisible(false);
-                                view.ViewClient.connectDialog.dispose();
+                                view.Chat.connectDialog.setVisible(false);
+                                view.Chat.connectDialog.dispose();
                             thread2 = new Thread(new ActionClient(socket,client));
                             thread2.start();
                                 break;
                             case "loginAlreadyUsed":
                                 view.ConnectScreen.alert.setText("Ce pseudo est déjà utilisé.");
-                                isConnected = true;
-                                //  socket.close();
                                 break;
-                        //System.out.println(in.getClass());
                             default:
                                 break;
                         }
-                         System.out.println("Sortie de boucle? : " + isConnected);
                     }
-                   
                 }catch(IOException ex){
                         view.ConnectScreen.alert.setText("Pertubations avec le serveur.");
-                        }
-            
+                }
         } catch (IOException e){
             view.ConnectScreen.alert.setText("Le serveur ne répond pas.");
         }

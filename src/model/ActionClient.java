@@ -25,7 +25,7 @@ public class ActionClient implements Runnable {
             Thread thread4 = new Thread(new ReceptionObjet(in));
             thread4.start();
         } catch (IOException e){
-            e.printStackTrace();
+           // e.printStackTrace();
             System.err.println("Le serveur distant n'est plus accessible.");
         }
     }

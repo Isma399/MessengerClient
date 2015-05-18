@@ -1,10 +1,8 @@
 package view;
 
+import controller.State;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -12,31 +10,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-
 import java.net.Socket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Observable;
+import java.util.Observer;
 
-import model.MessengerClient;
-
-
-public class ConnectScreen extends JFrame{
-  JDialog connectScreen = new JDialog();
-  public static JTextArea alert;
-  public static JTextField ipServer ;
-  public static JTextField portServer;
-  public static JTextField userName;
-  private JButton connect,cancel;
-  public static Socket socket = null;
+public class ConnectScreen extends JFrame implements Observer{
+    JDialog connectScreen = new JDialog();
+    public static JTextArea alert;
+    public static JTextField ipServer ;
+    public static JTextField portServer;
+    public static JTextField userName;
+    private final JButton connect,cancel;
+    public static Socket socket = null;
   
-  public ConnectScreen(){
-        setSize(400, 300);
-        setTitle("Connection");
-        setLocationRelativeTo(null);
+public ConnectScreen(){
+    setVisible(false);
+    setSize(400, 300);
+    setTitle("Connection");
+    setLocationRelativeTo(null);
         
-        JPanel container = new JPanel();
-        
-      
+    JPanel container = new JPanel();
         
         ipServer = new JTextField("127.0.0.1");
         JLabel ipLabel = new JLabel("Adresse IP du serveur");
@@ -68,32 +61,29 @@ public class ConnectScreen extends JFrame{
         container.add(middle2);
         
         connect = new JButton("Connect");
-        connect.addActionListener(new model.MessengerClient());
         cancel = new JButton("Cancel");
-        cancel.addActionListener(new DialogListener());
         JPanel bottom = new JPanel();
         bottom.add(connect);
         bottom.add(cancel);
         container.add(bottom);
         
-          alert = new JTextArea("");
+        alert = new JTextArea("");
         alert.setPreferredSize(new Dimension(375,100));
         JPanel bottom2 = new JPanel();
         bottom2.add(alert);
         container.add(bottom2);
         
         add(container);
-        setVisible(true);
         connectScreen.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 }
-  class DialogListener implements ActionListener{
-      
-    @Override
-    public void actionPerformed(ActionEvent e){
-        Object button = e.getSource();
-            if (button==cancel){setVisible(false);dispose();}
-
-    }
-  }
+  public JButton getCancel() {return cancel;}
+  public JButton getConnect() { return connect;}
   
+  @Override
+   public void update(Observable obs, Object arg) { // réaction au changement de modèle
+        if (obs instanceof State) {
+            State value=(State) obs;
+
+        }
+   }
 }

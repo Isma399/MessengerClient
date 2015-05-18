@@ -3,11 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import shared.*;
-import view.ViewClient;
+
 import java.io.*;
 import java.util.Scanner;
 
-public class EmissionObjet implements ActionListener,Runnable{
+public class EmissionObjet implements Runnable{
   
     public ObjectOutputStream out;
     private final Client client;
@@ -36,18 +36,5 @@ public void run(){
         }catch(IOException e){e.printStackTrace();}}
 }
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        Message message = new Message(client,"");
-        message.setClient(client);
-        message.setText(view.ViewClient.chatWrite.getText());
-        //String text = view.ViewClient.chatWrite.getText();
-        try {
-            out.writeObject(message);
-            out.flush();
-            out.reset();
-        } catch(IOException ex){
-            ex.printStackTrace();
-        }
-    }
+    
 }
