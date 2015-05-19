@@ -1,8 +1,9 @@
 package model;
 import java.net.*;
-import java.util.Scanner;
 import java.io.*;
 import shared.Client;
+import controller.State;
+
 
 public class Connexion  implements Runnable{
     private  Socket socket = null;
@@ -10,20 +11,13 @@ public class Connexion  implements Runnable{
     public String login;
     private PrintWriter out;
     private BufferedReader in;
-    private Scanner scanner = null;
     private boolean isConnected = false;
     public static Client client;
-       
-    public Connexion(Socket socket,String login){
-        this.socket = socket;this.login=login;
+    public State state;
+           
+    public Connexion(Socket socket,String login,State state){
+        this.socket = socket;this.login=login;this.state=state;
     }
-//    public void close(){
-//        try{
-//        socket.close();
-//        }catch(IOException e){
-//            System.out.println("Vous avez bien été déconecté.");
-//        }
-//    }
     @Override
     public void run(){
         try{
@@ -36,11 +30,12 @@ public class Connexion  implements Runnable{
                         switch (in.readLine()) {
                             case "connecte":
                                 client = new Client(login);
+//                                state.message.setClient(client);
                                 view.ConnectScreen.alert.setText("Pseudo OK.");
                                 isConnected = true;
                                 view.Chat.connectDialog.setVisible(false);
                                 view.Chat.connectDialog.dispose();
-                            thread2 = new Thread(new ActionClient(socket,client));
+                            thread2 = new Thread(new ActionClient(socket,client,state));
                             thread2.start();
                                 break;
                             case "loginAlreadyUsed":

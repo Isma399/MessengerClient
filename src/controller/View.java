@@ -6,15 +6,13 @@ import view.*;
 
 public class View {
     private State state;
+    
     public View(State state,Chat chat){
-     this.state=state;  
-//     chat.getSendButton().addActionListener(
-//             new ActionListener() {
-//                 @Override
-//                 public void actionPerformed(ActionEvent se){
-//                  //   View.this.state.sendText();
-//                 }
-//             });
+    this.state=state;  
+    chat.getSendButton().addActionListener((ActionEvent se) -> {
+        String text = chat.getChatWrite();
+        View.this.state.sendMessage(text);
+    });
     chat.getConnect().addActionListener((ActionEvent ee) -> {
         View.this.state.connect();
     });

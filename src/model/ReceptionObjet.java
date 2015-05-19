@@ -1,18 +1,16 @@
 package model;
-import shared.*;
-import java.io.BufferedReader;
+import shared.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ReceptionObjet implements Runnable {
-    private final         ObjectInputStream in; 
-    private String message = null;
+    private final  ObjectInputStream in; 
+    private Message message;
     public ReceptionObjet(ObjectInputStream in){
         this.in = in;
     }
-
     @Override
     public void run() {
         boolean isConnected = true;
@@ -20,7 +18,7 @@ public class ReceptionObjet implements Runnable {
             try{
                 Object objectReceived = in.readObject();
                 if (objectReceived instanceof Message){
-                Message message = (Message)objectReceived;
+                    message = (Message)objectReceived;
                     switch (message.getClient().toString()) {
                         case "server":
                             view.Chat.setUserList(message.getText());
@@ -34,7 +32,8 @@ public class ReceptionObjet implements Runnable {
                     }
                 }else{System.out.println("Bad Object.");}                 
             } catch (IOException e){
-                System.out.println("TODO : deconnexion du serveur");
+                view.Chat.setDisplayChatGray("Vous êtes déconnectés.");
+                view.Chat.isEditableChatWrite(false);
                 isConnected=false;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ReceptionObjet.class.getName()).log(Level.SEVERE, null, ex);

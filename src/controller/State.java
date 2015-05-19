@@ -1,16 +1,31 @@
 package controller;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Observable;
 import model.Connexion;
-import static model.MessengerClient.socket;
+import model.EmissionObjet;
 import static model.MessengerClient.thread1;
+import shared.Message;
 
 public class State extends Observable{
     public Socket socket;
-    public State(Socket socket){this.socket=socket;}
+    public String text;
+    //public Message message = new Message(null,"");
+    public State(Socket socket,String text){this.socket=socket;this.text=text;}
+//    public State(Socket socket,Message message){
+//        this.socket=socket;this.message=message;
+//    }
+     public void sendMessage(String text){
+        this.text=text;
+        view.Chat.setDisplayChat("\n°°°-°°°" + text);
+        view.Chat.clearChatWrite();
+        setChanged();notifyObservers();
+    }
+     public String getText(){
+         return text;
+        // setChanged();notifyObservers();
+     }
     public void exit(){
         System.exit(0);setChanged(); notifyObservers();
     }
@@ -59,14 +74,18 @@ public class State extends Observable{
             }else{
                 try{
                     socket = new Socket(ip,portServer);
-                    thread1 = new Thread(new Connexion(socket,login));
+                    //this.message.setClient(login);
+                    thread1 = new Thread(new Connexion(socket,login,this));
                     thread1.start();
                     view.ConnectScreen.alert.setText("Connexion etablie avec le serveur sur " + socket.getRemoteSocketAddress() );
+                    view.Chat.isEditableChatWrite(true);
+                    view.Chat.clearChatWrite();
                 }catch(IOException ex){
                     view.ConnectScreen.alert.setText("Problème de connexion. Veuillez réessayer ultérieurement.");
                 }
             }
         }
+   
     }
 
 

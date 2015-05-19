@@ -5,11 +5,10 @@ import java.awt.event.*;
 import java.util.Observable;
 import javax.swing.*;
 import java.util.Observer;
-//import model.*;
-import controller.*;
+import controller.State;
 
 public class Chat extends JFrame implements Observer{
-    public static ConnectScreen connectDialog = new ConnectScreen();
+   public static ConnectScreen connectDialog = new ConnectScreen();
    private JButton sendButton;
    private static JTextArea userList,chatWrite;
    private static JTextArea chatDisplay = new JTextArea ("");
@@ -52,6 +51,7 @@ public class Chat extends JFrame implements Observer{
     Icon icon = new ImageIcon("wavy.gif");
     JPanel users = new JPanel(new BorderLayout());
     userList = new JTextArea();
+    userList.setEditable(false);
     userList.setPreferredSize(new Dimension(200, 300));
     userList.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 20, icon));
     userList.setBackground(Color.lightGray);
@@ -61,7 +61,8 @@ public class Chat extends JFrame implements Observer{
     //ChatWriter
     JPanel chat = new JPanel();
      chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-    chatWrite = new JTextArea();
+    chatWrite = new JTextArea("Veuillez-vous connecter.");
+    chatWrite.setEditable(false);
     chatWrite.setBorder(BorderFactory.createMatteBorder( 20, 0, 0, 2, icon));
     sendButton = new JButton("Send");
     JPanel chatButton = new JPanel();
@@ -100,27 +101,8 @@ public class Chat extends JFrame implements Observer{
     
     }
    
-//   static class Action implements ActionListener{
-//    public JTextField ipServer;
-//    
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-////        if(e.getActionCommand() == "Exit"){
-////           //System.exit(0);
-////        } 
-////        else 
-//            if(e.getActionCommand() == "Connect"){
-//            connectDialog = new ConnectScreen();
-//            connectDialog.setVisible(true);
-//        } else if(e.getActionCommand() == "Disconnect"){
-//            System.err.println("TODOUDOU : Disconnect");
-//
-//        }
-//    }
-//}
-   
    public JButton getSendButton() {return sendButton;}
-   public JTextArea getChatWrite() {return chatWrite;}
+   public String getChatWrite() {return chatWrite.getText();}
    public JMenuItem getExit() {return exit;}
    public JMenuItem getDisconnect() {return disconnect;}
    public JMenuItem getConnect() {return connect;}
@@ -128,7 +110,7 @@ public class Chat extends JFrame implements Observer{
    public static void setUserList ( String list){
        userList.setText(list);
    }
-   public  static void setDisplayChatGray(String text){
+   public static void setDisplayChatGray(String text){
        String s = chatDisplay.getText();
        chatDisplay.setText(s + "\n" + text); chatDisplay.setForeground(Color.gray);
    }
@@ -136,33 +118,16 @@ public class Chat extends JFrame implements Observer{
        String s = chatDisplay.getText();
        chatDisplay.setText(s + "\n" + text); chatDisplay.setForeground(Color.black);
    } 
+    public static void clearChatWrite(){
+        chatWrite.setText("");
+    }
+    public static void isEditableChatWrite(boolean b){
+        chatWrite.setEditable(b);
+    }
    @Override
    public void update(Observable obs, Object arg) { // réaction au changement de modèle
         if (obs instanceof State) {
             State value=(State) obs;
-//            chatDisplay.setText(""+value.getValue());
-//            jauge.setValue(value.getValue());
         }
     }
-   
-
-//static class KeyLis implements KeyListener{
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//        if(e.getKeyCode() == KeyEvent.VK_ENTER){
-//            System.out.println("Message recieved.");
-//        }
-//    }
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//        // TODO Auto-generated method stub
-//    }
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//        // TODO Auto-generated method stub
-//    }
-//}
-
-
 }

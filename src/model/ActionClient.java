@@ -1,28 +1,29 @@
 package model;
 import shared.Client;
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.io.IOException;
+import controller.State;
 
 public class ActionClient implements Runnable {
     private final Socket socket;
-    private Scanner scanner;
     private Thread thread3, thread4;
-    private Client client;
-    private String text;
-    
-    public ActionClient (Socket socket,Client client){
-        this.socket=socket;this.client=client;
+    private final Client client;
+    public State state;
+            
+    public ActionClient (Socket socket,Client client,State state){
+        this.socket=socket;this.client=client;this.state=state;
     }
     @Override
     public void run() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            Thread thread3 = new Thread(new EmissionObjet(out,client));
+            thread3 = new Thread(new EmissionObjet(out,client,state));
             thread3.start();
             
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            Thread thread4 = new Thread(new ReceptionObjet(in));
+            thread4 = new Thread(new ReceptionObjet(in));
             thread4.start();
         } catch (IOException e){
            // e.printStackTrace();
