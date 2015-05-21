@@ -12,7 +12,7 @@ public class MessengerClient  {
     public static View controllerView;
 
     public static void main(String[] args) {
-        State state= new State(socket,"");
+        State state= new State(socket,"",null);
         SwingUtilities.invokeLater(() -> {
             Chat chat = new Chat(state);
             controllerView = new View(state, chat);

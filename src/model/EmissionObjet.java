@@ -8,11 +8,11 @@ import java.util.Scanner;
 import java.util.Observer;
 import controller.State;
 
-public class EmissionObjet implements Runnable,Observer{
+public class EmissionObjet implements Runnable, Observer{
   
     public ObjectOutputStream out;
     private final Client client;
-    public static Message message;
+    public Message message;
     private Scanner scanner;
     private String text;
     public State state;
@@ -21,7 +21,7 @@ public class EmissionObjet implements Runnable,Observer{
         this.out=out;this.client=client;state.addObserver(this);
     }
 @Override
-public void run(){ }
+public void run(){} 
 
     @Override
     public void update(Observable observable, Object o1) {

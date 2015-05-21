@@ -6,22 +6,26 @@ import java.util.Observable;
 import model.Connexion;
 import model.EmissionObjet;
 import static model.MessengerClient.thread1;
-import shared.Message;
+import shared.*;
 
 public class State extends Observable{
     public Socket socket;
     public String text;
+    public Client client;
     //public Message message = new Message(null,"");
-    public State(Socket socket,String text){this.socket=socket;this.text=text;}
+    public State(Socket socket,String text,Client client){this.socket=socket;this.text=text;this.client=client;}
 //    public State(Socket socket,Message message){
 //        this.socket=socket;this.message=message;
 //    }
      public void sendMessage(String text){
         this.text=text;
-        view.Chat.setDisplayChat("\n°°°-°°°" + text);
+        view.Chat.setDisplayChat(client.getLogin() + " : "+ text);
         view.Chat.clearChatWrite();
         setChanged();notifyObservers();
     }
+     public void setClient(Client client){
+         this.client=client;
+     }
      public String getText(){
          return text;
         // setChanged();notifyObservers();

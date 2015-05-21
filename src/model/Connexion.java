@@ -7,12 +7,12 @@ import controller.State;
 
 public class Connexion  implements Runnable{
     private  Socket socket = null;
-    public static Thread thread2;
+    public Thread thread2;
     public String login;
     private PrintWriter out;
     private BufferedReader in;
     private boolean isConnected = false;
-    public static Client client;
+    public  Client client;
     public State state;
            
     public Connexion(Socket socket,String login,State state){
@@ -26,17 +26,18 @@ public class Connexion  implements Runnable{
                 try{
                     out.println(login);
                     out.flush();
-                    while(isConnected!=true){  
+                    while(isConnected!=true){ 
+                        try{
                         switch (in.readLine()) {
                             case "connecte":
                                 client = new Client(login);
-//                                state.message.setClient(client);
+                                state.setClient(client);
                                 view.ConnectScreen.alert.setText("Pseudo OK.");
-                                isConnected = true;
                                 view.Chat.connectDialog.setVisible(false);
                                 view.Chat.connectDialog.dispose();
                             thread2 = new Thread(new ActionClient(socket,client,state));
                             thread2.start();
+                                isConnected = true;
                                 break;
                             case "loginAlreadyUsed":
                                 view.ConnectScreen.alert.setText("Ce pseudo est déjà utilisé.");
@@ -44,7 +45,9 @@ public class Connexion  implements Runnable{
                             default:
                                 break;
                         }
+                        }catch(NullPointerException ne){ view.ConnectScreen.alert.setText("Ce pseudo est déjà utilisé.");}
                     }
+                    
                 }catch(IOException ex){
                         view.ConnectScreen.alert.setText("Pertubations avec le serveur.");
                 }

@@ -10,7 +10,7 @@ import controller.State;
 public class Chat extends JFrame implements Observer{
    public static ConnectScreen connectDialog = new ConnectScreen();
    private JButton sendButton;
-   private static JTextArea userList,chatWrite;
+   private  static JTextArea userList,chatWrite;
    private static JTextArea chatDisplay = new JTextArea ("");
    private JMenuItem connect,disconnect,exit;
     

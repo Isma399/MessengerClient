@@ -19,7 +19,7 @@ public class ActionClient implements Runnable {
     public void run() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            thread3 = new Thread(new EmissionObjet(out,client,state));
+           thread3 = new Thread(new EmissionObjet(out, client, state));
             thread3.start();
             
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
